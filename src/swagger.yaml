@@ -1,0 +1,146 @@
+swagger: "3.0.0"
+info:
+  title: Task
+  description: Technical Task
+  version: "1.0.0"
+schemes:
+  - http
+paths:
+  "/messages/list/0":
+    x-swagger-router-controller: Messages
+    get:
+      operationId: getListPerPage
+      summary: Get 10 last messages
+      tags:
+        - Messages
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: Messages
+          description: list of messages
+      responses:
+        200:
+          description: An array of messages
+          schema:
+            $ref: '#/definitions/MessagesList'
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/messages/single":
+    x-swagger-router-controller: Message
+    post:
+      summary: Post a message
+      tags:
+        - Message
+      produces:
+        - application/json
+      operationId: postMessage
+      parameters:
+        - in: body
+          name: Message
+          description: Message object
+          schema:
+            $ref: '#/definitions/postMessage'
+      responses:
+        200:
+          description: Message Response
+          schema:
+            $ref: "#/definitions/postMessageResponse"
+        400:
+          description: Bad Request
+          schema:
+            $ref: "#/definitions/messageValidationError"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  "/messages/single/{_id}":
+    x-swagger-router-controller: Message
+    get:
+      summary: Get a message by ID
+      tags:
+        - Message
+      parameters:
+        - in: path
+          name: _id
+          schema:
+            type: string
+          required: true
+          description: ID of the message to get
+      responses:
+        200:
+          description: Response
+          schema:
+            $ref: "#/definitions/postMessageResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+
+definitions:
+  MessagesList:
+    properties:
+      docs:
+        type: array
+        items:
+          type: object
+          properties:
+            email:
+              type: string
+              example: "petyaivanov@gmail.com"
+            message:
+              type: string
+              example: "hello Petya"
+            author:
+              type: string
+              example: "Ivan"
+  ErrorResponse:
+    properties:
+      error:
+        type: string
+        example: "Server Error"
+      message:
+        type: string
+        example: "Something went wrong"
+  postMessage:
+    properties:
+      message:
+        type: string
+        example: "hello Petya"
+      email:
+        type: string
+        example: "vasya@gmail.com"
+      author:
+        type: string
+        example: "Vasyliy"
+  postMessageResponse:
+    properties:
+      _id:
+        type: string
+        example: "5e4d2b79706102c34c3a03b3"
+      message:
+        type: string
+        example: "hello Petya"
+      email:
+        type: string
+        example: "vasya@gmail.com"
+      author:
+        type: string
+        example: "Vasiliy"
+      createdAt:
+        type: string
+        example: "2020-02-19T12:35:05.341Z"
+      updatedAt:
+        type: string
+        example: "2020-02-19T12:35:05.341Z"
+      _v:
+        type: integer
+        example: 0
+  messageValidationError:
+    properties:
+      error:
+        type: string
+        example: "\"email\" must be a valid email"

@@ -25,9 +25,7 @@ Body accepts email and text.
 - Deploy to Heroku
 
 
-Advanced requirements:
-- Continuous integration CircleCI / TravisCI
-- Deploy to AWS / DigitalOcean from Docker Cloud
+
 
 https://public-chat-app-tt.herokuapp.com/api-docs/
 ```
